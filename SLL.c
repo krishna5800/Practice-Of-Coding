@@ -138,6 +138,87 @@ void DeleteLast(PPNODE first)
     }
 }
 
+void InsertAtPos(PPNODE first, int no, int pos)
+{
+    int iSize = 0;
+    int iCnt = 0;
+
+    PNODE newn = NULL;
+    PNODE temp = NULL;
+
+    newn = (PNODE)malloc(sizeof(NODE));
+
+    newn->data = no;
+    newn->next = NULL;
+
+    iSize = Count(*first);
+
+    if(pos < 1 || pos > iSize+1)
+    {
+        printf("Invalide Position\n");
+        return ;
+    }
+    else if(pos == 1)
+    {
+        InsertFirst(first, no);
+    }
+    else if(pos == (iSize+1))
+    {
+        InsertLast(first, no);
+    }
+    else
+    {
+        temp = (*first);
+
+        for(iCnt = 1; iCnt < (pos-1); iCnt++)
+        {
+            temp = temp->next;
+        }
+
+        newn->next = temp->next;
+        temp->next = newn;
+    }
+}
+
+void DeleteAtPos(PPNODE first, int pos)
+{
+    int iSize = 0;
+    int iCnt = 0;
+
+    PNODE temp = NULL;
+    PNODE target = NULL;
+
+    iSize = Count(*first);
+
+    if(pos < 1 || pos > iSize)
+    {
+        printf("Invalide Position\n");
+        return ;
+    }
+    else if(pos == 1)
+    {
+        DeleteFirst(first);
+    }
+    else if(pos == (iSize))
+    {
+        DeleteLast(first);
+    }
+    else
+    {
+        temp = (*first);
+
+        for(iCnt = 1; iCnt < (pos-1); iCnt++)
+        {
+            temp = temp->next;
+        }
+
+        target = temp->next;
+
+        temp->next = target->next;
+        free(target);
+    }
+}
+
 int main()
 {
     PNODE head = NULL;
@@ -165,6 +246,18 @@ int main()
     printf("Count is : %d\n", iRet);
 
     DeleteLast(&head);
+
+    Display(head);
+    iRet = Count(head);
+    printf("Count is : %d\n", iRet);
+
+    InsertAtPos(&head, 105, 5);
+
+    Display(head);
+    iRet = Count(head);
+    printf("Count is : %d\n", iRet);
+
+    DeleteAtPos(&head, 5);
 
     Display(head);
     iRet = Count(head);
