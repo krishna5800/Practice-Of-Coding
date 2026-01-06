@@ -2,11 +2,11 @@
 using namespace std;
 
 template<class T>
-struct node 
+struct DoublyLLLnode 
 {
     T data;
-    struct node * next;
-    struct node * prev;
+    struct DoublyLLLnode * next;
+    struct DoublyLLLnode * prev;
 };
 
 template<class T>
@@ -14,7 +14,7 @@ class DoublyLL
 {
     private:
         int iCount;
-        struct node<T> * first;
+        struct DoublyLLLnode<T> * first;
 
     public:
         DoublyLL();
@@ -38,8 +38,8 @@ DoublyLL<T> :: DoublyLL()
 template<class T>
 void DoublyLL<T> :: InsertFirst(T no)
 {
-    struct node<T> * newn;
-    newn = new node<T>;
+    struct DoublyLLLnode<T> * newn;
+    newn = new DoublyLLLnode<T>;
 
     newn->data = no;
     newn->next = NULL;
@@ -62,9 +62,9 @@ void DoublyLL<T> :: InsertFirst(T no)
 template<class T>
 void DoublyLL<T> :: InsertLast(T no)
 {
-    struct node<T> * newn;
-    newn = new node<T>;
-    struct node<T> * temp;
+    struct DoublyLLLnode<T> * newn;
+    newn = new DoublyLLLnode<T>;
+    struct DoublyLLLnode<T> * temp;
     temp = NULL;
 
     newn->data = no;
@@ -110,10 +110,10 @@ void DoublyLL<T> :: InsertAtPos(T no, int pos)
     }
     else
     {
-        struct node<T> * temp;
+        struct DoublyLLLnode<T> * temp;
         temp = NULL;
-        struct node<T> * newn;
-        newn = new node<T>;
+        struct DoublyLLLnode<T> * newn;
+        newn = new DoublyLLLnode<T>;
 
         newn->data = no;
         newn->next = NULL;
@@ -138,7 +138,7 @@ void DoublyLL<T> :: InsertAtPos(T no, int pos)
 template<class T>
 void DoublyLL<T> :: DeleteFirst()
 {
-    struct node<T> * temp;
+    struct DoublyLLLnode<T> * temp;
     temp = NULL;
 
     if(first == NULL)
@@ -165,9 +165,9 @@ void DoublyLL<T> :: DeleteFirst()
 template<class T>
 void DoublyLL<T> :: DeleteLast()
 {
-    struct node<T> * temp;
+    struct DoublyLLLnode<T> * temp;
     temp = NULL;
-    struct node<T> * target;
+    struct DoublyLLLnode<T> * target;
     target = NULL;
 
     if(first == NULL)
@@ -217,9 +217,9 @@ void DoublyLL<T> :: DeleteAtPos(int pos)
     }
     else
     {
-        struct node<T> * temp = NULL;
+        struct DoublyLLLnode<T> * temp = NULL;
         int iCnt = 0;
-        struct node<T> * target = NULL;
+        struct DoublyLLLnode<T> * target = NULL;
 
         temp = first;
 
@@ -242,7 +242,7 @@ void DoublyLL<T> :: DeleteAtPos(int pos)
 template<class T>
 void DoublyLL<T> :: Display()
 {
-    struct node<T> * temp;
+    struct DoublyLLLnode<T> * temp;
     temp = NULL;
 
     temp = first;
@@ -278,7 +278,7 @@ int main()
     iobj.Display();
     iRet = iobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     iobj.InsertLast(101);
     iobj.InsertLast(111);
@@ -287,35 +287,35 @@ int main()
     iobj.Display();
     iRet = iobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     iobj.DeleteFirst();
 
     iobj.Display();
     iRet = iobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     iobj.DeleteLast();
 
     iobj.Display();
     iRet = iobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     iobj.InsertAtPos(105, 4);
 
     iobj.Display();
     iRet = iobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     iobj.DeleteAtPos(4);
 
     iobj.Display();
     iRet = iobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     // For double
     printf("\n For Double : \n");
@@ -329,7 +329,7 @@ int main()
     dobj.Display();
     iRet = dobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     dobj.InsertLast(101.5);
     dobj.InsertLast(111.5);
@@ -338,35 +338,35 @@ int main()
     dobj.Display();
     iRet = dobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     dobj.DeleteFirst();
 
     dobj.Display();
     iRet = dobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     dobj.DeleteLast();
 
     dobj.Display();
     iRet = dobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     dobj.InsertAtPos(105.5, 4);
 
     dobj.Display();
     iRet = dobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     dobj.DeleteAtPos(4);
 
     dobj.Display();
     iRet = dobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     // For character
     printf("\n For Character : \n");
@@ -380,7 +380,7 @@ int main()
     cobj.Display();
     iRet = cobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     cobj.InsertLast('D');
     cobj.InsertLast('E');
@@ -389,35 +389,35 @@ int main()
     cobj.Display();
     iRet = cobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     dobj.DeleteFirst();
 
     cobj.Display();
     iRet = cobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     cobj.DeleteLast();
 
     cobj.Display();
     iRet = cobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     cobj.InsertAtPos('G', 4);
 
     cobj.Display();
     iRet = cobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     cobj.DeleteAtPos(4);
 
     cobj.Display();
     iRet = cobj.Count();
 
-    cout << "Number of Nodes are : " << iRet << "\n";
+    cout << "Number of DoublyLLLNodes are : " << iRet << "\n";
 
     return 0;
 }
