@@ -10,6 +10,8 @@
     Singly Circular         SinglyCLLnode                     SinglyCLL         Done               |
     Doubly Linear           DoublyLLLnode                     DoublyLLL         Done               |
     Doubly Circular         DoublyCLLnode                     DoublyCLL         Done               |
+    Stack                   Stacknode                         Stack             Done               |
+    Queue                   Queuenode                         Queue             Done               |
 ---------------------------------------------------------------------------------------------------+
 */
 
@@ -475,9 +477,6 @@ void SinglyCLL<T> :: InsertFirst(T no)
 {
     SinglyCLLnode<T> * newn = new SinglyCLLnode<T> (no);
 
-    newn->data = no;
-    newn->next = NULL;
-
     if(first == NULL && last == NULL)
     {
         first = newn;
@@ -510,9 +509,6 @@ template<class T>
 void SinglyCLL<T> :: InsertLast(T no)
 {
     SinglyCLLnode<T> * newn = new SinglyCLLnode<T> (no);
-
-    newn->data = no;
-    newn->next = NULL;
 
     if(first == NULL && last == NULL)
     {
@@ -565,9 +561,6 @@ void SinglyCLL<T> :: InsertAtPos(T no, int pos)
         newn = new SinglyCLLnode<T> (no);
         SinglyCLLnode<T> * temp = NULL;
         int iCnt = 0;
-
-        newn->data = no;
-        newn->next = NULL;
 
         temp = first;
 
@@ -734,6 +727,11 @@ void SinglyCLL<T> :: Display()
     SinglyCLLnode<T> * temp = NULL;
 
     temp = first;
+
+    if(first == NULL) 
+    { 
+        return; 
+    }
 
     cout << "\n-> ";
     do
@@ -1154,7 +1152,7 @@ class DoublyCLLnode
         DoublyCLLnode * next;
         DoublyCLLnode * prev ;
 
-        DoublyCLL(T no)
+        DoublyCLLnode(T no)
         {
             data = no;
             next = NULL;
@@ -1228,11 +1226,7 @@ template<class T>
 void DoublyCLL<T> :: InsertFirst(T no)
 {
     DoublyCLLnode<T> * newn = NULL;
-    newn = new DoublyCLLnode<T>;
-
-    newn->data = no;
-    newn->next = NULL;
-    newn->prev = NULL;
+    newn = new DoublyCLLnode<T>(no);
 
     if(first == NULL && last == NULL)
     {
@@ -1267,11 +1261,7 @@ template<class T>
 void DoublyCLL<T> :: InsertLast(T no)
 {
     DoublyCLLnode<T> * newn = NULL;
-    newn = new DoublyCLLnode<T>;
-
-    newn->data = no;
-    newn->next = NULL;
-    newn->prev = NULL;
+    newn = new DoublyCLLnode<T>(no);
 
     if(first == NULL && last == NULL)
     {
@@ -1322,14 +1312,10 @@ void DoublyCLL<T> :: InsertAtPos(T no, int pos)
     else
     {
         DoublyCLLnode<T> * newn = NULL;
-        newn = new DoublyCLLnode<T>;
+        newn = new DoublyCLLnode<T>(no);
 
         DoublyCLLnode<T> * temp = NULL;
         int iCnt = 0;
-
-        newn->data = no;
-        newn->next = NULL;
-        newn->prev = NULL;
 
         temp = first;
 
@@ -1496,6 +1482,11 @@ void DoublyCLL<T> :: Display()
     DoublyCLLnode<T> * temp = NULL;
     temp = first;
 
+    if(first == NULL) 
+    { 
+        return; 
+    }
+
     cout << "\n(start) <=> ";
     do
     {
@@ -1523,9 +1514,660 @@ int DoublyCLL<T> :: Count()
     return iCount;
 }
 
+///////////////////////////////////////////////////////////////////////
+//          Stack Using Generic Approach
+///////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Class Name          :   Stacknode
+//  Description         :   Used to create node
+//  Author              :   Krishna Govindrav Hitnalikar
+//  Date                :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+#pragma pack(1)
+template<class T>
+class Stacknode
+{
+    public:
+        T data;
+        Stacknode<T> * next;
+
+        Stacknode(T no)
+        {
+            this->data = no;
+            this->next = NULL;
+        }
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Class Name          :   Stack
+//  Description         :   Used for stack creation
+//  Author              :   Krishna Govindrav Hitnalikar
+//  Date                :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+class Stack
+{
+    private:
+        int iCount;
+        Stacknode<T> * first;
+
+    public:
+        Stack();
+
+        void push(T no);      
+        T pop();             
+        T peep();
+
+        void Display();
+        int Count();
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Constructor Name    :   Stack
+//  Input               :   Nothing
+//  Output              :   Nothing
+//  Description         :   Used to allocate resources and initialization
+//  Author              :   Krishna Govindrav Hitnalikar
+//  Date                :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+Stack<T> :: Stack()
+{
+    cout << "Stack gets created successfully...\n";
+
+    this->iCount = 0;
+    this->first = NULL;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   push
+//  Input           :   Data for stack
+//  Output          :   Nothing
+//  Description     :   Push data in stack
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void Stack<T> :: push(T no)
+{
+    Stacknode<T> * newn = NULL;
+    newn = new Stacknode<T>(no);
+
+    newn->next = this->first;
+    this->first = newn;
+    
+    this->iCount++;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   pop
+//  Input           :   Nothing
+//  Output          :   Data popped from stack
+//  Description     :   Pop data in stack
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+T Stack<T> :: pop()
+{
+    T Value = 0;
+    Stacknode<T> * temp = NULL;
+    temp = this->first;
+
+    if(this->first == NULL)
+    {
+        cout << "Stack is empty...\n";
+        return -1;
+    }
+
+    Value = this->first->data;
+
+    this->first = this->first->next;
+    delete temp;
+
+    this->iCount--;
+    return Value;
+}   
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   peep
+//  Input           :   Nothing
+//  Output          :   Data from stack
+//  Description     :   Print data at top of stack
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+T Stack<T> :: peep()
+{
+    T Value = 0;
+
+    if(this->first == NULL)
+    {
+        cout << "Stack is empty...\n";
+        return -1;
+    }
+
+    Value = this->first->data;
+
+    return Value;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   Display
+//  Input           :   Nothing
+//  Output          :   Nothing
+//  Description     :   Display Stack all data
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void Stack<T> :: Display()
+{
+    Stacknode<T> * temp = NULL;
+    temp = this->first;
+
+    if(this->first == NULL)
+    {
+        cout << "Stack is empty...\n";
+        return ;
+    }
+
+    while(temp != NULL)
+    {
+        cout << "|\t" << temp->data << "\t|\n"; 
+        temp = temp->next;
+    }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   Count
+//  Input           :   Nothing
+//  Output          :   Count of data elements
+//  Description     :   Give count of data elements from stack
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+int Stack<T> :: Count()
+{
+    return iCount;
+}
+
+///////////////////////////////////////////////////////////////////////
+//          Queue Using Generic Approach
+///////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Class Name          :   Queuenode
+//  Description         :   Used to create node
+//  Author              :   Krishna Govindrav Hitnalikar
+//  Date                :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+#pragma pack(1)
+template<class T>
+class Queuenode
+{
+    public:
+        T data;
+        Queuenode<T> * next;
+
+        Queuenode(T no)
+        {
+            this->data = no;
+            this->next = NULL;
+        }
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Class Name          :   Queue
+//  Description         :   Used for queue creation
+//  Author              :   Krishna Govindrav Hitnalikar
+//  Date                :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+class Queue
+{
+    private:
+        int iCount;
+        Queuenode<T> * first;
+        Queuenode<T> * last;
+
+    public:
+        Queue();
+
+        void enqueue(T no);      
+        T dequeue();              
+
+        void Display();
+        int Count();
+};
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Constructor Name    :   Queue
+//  Input               :   Nothing
+//  Output              :   Nothing
+//  Description         :   Used to allocate resources and initialization
+//  Author              :   Krishna Govindrav Hitnalikar
+//  Date                :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+Queue<T> :: Queue()
+{
+    cout << "Queue gets created successfully...\n";
+
+    this->iCount = 0;
+    this->first = NULL;
+    this->last = NULL;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   enqueue
+//  Input           :   Data for element
+//  Output          :   Nothing
+//  Description     :   Add element in last of queue
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void Queue<T> :: enqueue(T no)
+{
+    Queuenode<T> * newn = NULL;
+    newn = new Queuenode<T>(no);
+
+    if(this->first == NULL && this->last == NULL)
+    {
+        this->first = newn;
+        this->last = newn;
+    }
+    else
+    {
+        this->last->next = newn;
+        this->last = this->last->next;         
+    }
+    
+    this->iCount++;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   dequeue
+//  Input           :   Nothing
+//  Output          :   Element removed from queue
+//  Description     :   Removes first elements from queue
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+T Queue<T> :: dequeue()
+{
+    T Value = 0;
+    Queuenode<T> * temp = NULL;
+    temp = this->first;
+
+    if(this->first == NULL && this->last == NULL)    
+    {
+        cout << "Queue is empty...\n";
+        return -1;
+    }
+
+    Value = this->first->data;
+
+    this->first = this->first->next;
+    delete temp;
+
+    this->iCount--;
+    return Value;
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   Display
+//  Input           :   Nothing
+//  Output          :   Nothing
+//  Description     :   Display Queue all data
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+void Queue<T> :: Display()
+{
+    Queuenode<T> * temp = NULL;
+    temp = this->first;
+
+    if(this->first == NULL && this->last == NULL)   
+    {
+        cout << "Queue is empty...\n";
+        return ;
+    }
+
+    while(temp != NULL)
+    {
+        cout << "| " << temp->data << " | - "; 
+        temp = temp->next;
+    }
+
+    cout << "\n";
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+//  Function Name   :   Count
+//  Input           :   Nothing
+//  Output          :   Count of data elements
+//  Description     :   Give count of data elements from queue
+//  Author          :   Krishna Govindrav Hitnalikar
+//  Date            :   07/01/2026
+//  
+/////////////////////////////////////////////////////////////////////////////////
+
+template<class T>
+int Queue<T> :: Count()
+{
+    return iCount;
+}
+
 //////////////////////////////////// End of Library ////////////////////////////////////////////
 
 int main()
 {
+    cout << "\nSingly Linear Linked List : \n";
+    
+    SinglyLL<int> *obj = new SinglyLL<int> ();
+
+    obj->InsertFirst(51);
+    obj->InsertFirst(21);
+    obj->InsertFirst(11);
+
+    obj->Display();
+
+    cout << "Number of nodes are : " << obj->Count() << "\n";
+
+    obj->InsertLast(101);
+    obj->InsertLast(111);
+    obj->InsertLast(121);
+
+    obj->Display();
+
+    cout << "Number of nodes are : " << obj->Count() << "\n";
+
+    obj->DeleteFirst();
+
+    obj->Display();
+
+    cout << "Number of nodes are : " << obj->Count() << "\n";
+
+    obj->DeleteLast();
+
+    obj->Display();
+
+    cout << "Number of nodes are : " << obj->Count() << "\n";
+
+    obj->InsertAtPos(105, 4);
+
+    obj->Display();
+
+    cout << "Number of nodes are : " << obj->Count() << "\n";
+
+    obj->DeleteAtPos(4);
+
+    obj->Display();
+
+    cout << "Number of nodes are : " << obj->Count() << "\n";
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+    cout << "\nSingly Circular Linked List : \n";
+    
+    SinglyCLL<char> *sobj = new SinglyCLL<char> ();
+
+    sobj->InsertFirst('X');
+    sobj->InsertFirst('Y');
+    sobj->InsertFirst('Z');
+
+    sobj->Display();
+
+    cout << "Number of nodes are : " << sobj->Count() << "\n";
+
+    sobj->InsertLast('U');
+    sobj->InsertLast('V');
+    sobj->InsertLast('W');
+
+    sobj->Display();
+
+    cout << "Number of nodes are : " << sobj->Count() << "\n";
+
+    sobj->DeleteFirst();
+
+    sobj->Display();
+
+    cout << "Number of nodes are : " << sobj->Count() << "\n";
+
+    sobj->DeleteLast();
+
+    sobj->Display();
+
+    cout << "Number of nodes are : " << sobj->Count() << "\n";
+
+    sobj->InsertAtPos('$', 4);
+
+    sobj->Display();
+
+    cout << "Number of nodes are : " << sobj->Count() << "\n";
+
+    sobj->DeleteAtPos(4);
+
+    sobj->Display();
+
+    cout << "Number of nodes are : " << sobj->Count() << "\n";
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+    cout << "\nDoubly Linear Linked List : \n";
+
+    DoublyLLL<int> *dobj = new DoublyLLL<int>();
+
+    dobj->InsertFirst(1);
+    dobj->InsertFirst(2);
+    dobj->InsertFirst(3);
+
+    dobj->Display();
+
+    cout << "Number of nodes are : " << dobj->Count() << "\n";
+
+    dobj->InsertLast(4);
+    dobj->InsertLast(5);
+    dobj->InsertLast(6);
+
+    dobj->Display();
+
+    cout << "Number of nodes are : " << dobj->Count() << "\n";
+
+    dobj->DeleteFirst();
+
+    dobj->Display();
+
+    cout << "Number of nodes are : " << dobj->Count() << "\n";
+
+    dobj->DeleteLast();
+
+    dobj->Display();
+
+    cout << "Number of nodes are : " << dobj->Count() << "\n";
+
+    dobj->InsertAtPos(100,4);
+
+    dobj->Display();
+
+    cout << "Number of nodes are : " << dobj->Count() << "\n";
+
+    dobj->DeleteAtPos(4);
+
+    dobj->Display();
+
+    cout << "Number of nodes are : " << dobj->Count() << "\n";
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+    cout << "\nDoubly Circular Linked List : \n";
+
+    DoublyCLL<char> *dcobj = new DoublyCLL<char>();
+
+    dcobj->InsertFirst('A');
+    dcobj->InsertFirst('B');
+    dcobj->InsertFirst('C');
+
+    dcobj->Display();
+
+    cout << "Number of nodes are : " << dcobj->Count() << "\n";
+
+    dcobj->InsertLast('X');
+    dcobj->InsertLast('Y');
+    dcobj->InsertLast('Z');
+
+    dcobj->Display();
+
+    cout << "Number of nodes are : " << dcobj->Count() << "\n";
+
+    dcobj->DeleteFirst();
+
+    dcobj->Display();
+
+    cout << "Number of nodes are : " << dcobj->Count() << "\n";
+
+    dcobj->DeleteLast();
+
+    dcobj->Display();
+
+    cout << "Number of nodes are : " << dcobj->Count() << "\n";
+
+    dcobj->InsertAtPos('@',4);
+
+    dcobj->Display();
+
+    cout << "Number of nodes are : " << dcobj->Count() << "\n";
+
+    dcobj->DeleteAtPos(4);
+
+    dcobj->Display();
+
+    cout << "Number of nodes are : " << dcobj->Count() << "\n";
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+    cout << "\nStack : \n";
+
+    Stack<char> *stackobj = new Stack<char>();
+
+    stackobj->push('a');
+    stackobj->push('b');
+    stackobj->push('c');
+    stackobj->push('d');
+
+    stackobj->Display();
+
+    cout << "Number of elements in Stack : " << stackobj->Count() << "\n";
+
+    cout << "Return value of peep() is : " << stackobj->peep() << "\n";
+
+    stackobj->Display();
+
+    cout << "Number of elements in Stack : " << stackobj->Count() << "\n";
+
+    cout << "Popped element is : " << stackobj->pop() << "\n";
+
+    stackobj->Display();
+
+    cout << "Number of elements in Stack : " << stackobj->Count() << "\n";
+
+    cout << "Popped element is : " << stackobj->pop() << "\n";
+
+    stackobj->Display();
+
+    cout << "Number of elements in Stack : " << stackobj->Count() << "\n";
+
+    stackobj->push('e');
+
+    stackobj->Display();
+
+    cout << "Number of elements in Stack : " << stackobj->Count() << "\n";
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+    cout << "\nQueue : \n";
+
+    Queue<double> *qobj = new Queue<double>();
+
+    qobj->enqueue(11.56789);
+    qobj->enqueue(21.56789);
+    qobj->enqueue(51.56789);
+    qobj->enqueue(101.56789);
+
+    qobj->Display();
+    cout << "Number of elements in Queue : " << qobj->Count() << "\n";
+
+    cout << "Removed element is : " << qobj->dequeue() << "\n";
+
+    qobj->Display();
+    cout << "Number of elements in Queue : " << qobj->Count() << "\n";
+
+    cout << "Removed element is : " << qobj->dequeue() << "\n";
+
+    qobj->Display();
+    cout << "Number of elements in Queue : " << qobj->Count() << "\n";
+
+    qobj->enqueue(121.56789);
+
+    qobj->Display();
+    cout << "Number of elements in Queue : " << qobj->Count() << "\n";
+
+    delete obj;
+    delete sobj;
+    delete dobj;
+    delete dcobj;
+    delete stackobj;
+    delete qobj;
+
     return 0;
 }
