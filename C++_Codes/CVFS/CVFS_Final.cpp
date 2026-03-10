@@ -654,24 +654,59 @@ int WriteFile(
 //
 ///////////////////////////////////////////////////////////////////////////////////////
 
-int ReadFile(
-                int fd,
-                char * data,
-                int size
-                )
+// int ReadFile(
+//                 int fd,
+//                 char * data,
+//                 int size
+//                 )
+// {
+//     // Invalid FD
+//     if(fd < 0 || fd >= MAXOPENFILES)
+//     {
+//         return ERR_INVALID_PARAMETER;
+//     }
+
+//     if(data == NULL)
+//     {
+//         return ERR_INVALID_PARAMETER;
+//     }
+
+//     if(size <= 0)
+//     {
+//         return ERR_INVALID_PARAMETER;
+//     }
+
+//     if(uareaobj.UFDT[fd] == NULL)
+//     {
+//         return ERR_FILE_NOT_EXIST;
+//     }
+
+//     // Filter of permissions
+//     if(uareaobj.UFDT[fd]->ptrinode->Permission < READ)
+//     {
+//         return ERR_PERMISSION_DENIED;
+//     }
+
+//     // Insufficient data
+//     if((MAXFILESIZE - uareaobj.UFDT[fd]->ReadOffset) < size)
+//     {
+//         return ERR_INSUFFICIENT_DATA;
+//     }
+
+//     // Read the data
+//     strncpy(data, uareaobj.UFDT[fd]->ptrinode->Buffer + uareaobj.UFDT[fd]->ReadOffset, size);
+
+//     // Update the read offset
+//     uareaobj.UFDT[fd]->ReadOffset = uareaobj.UFDT[fd]->ReadOffset + size;
+
+//     return size;
+// }
+
+int ReadFile(int fd, char *data, int size)
 {
-    // Invalid FD
-    if(fd < 0 || fd > MAXOPENFILES)
-    {
-        return ERR_INVALID_PARAMETER;
-    }
+    PFILETABLE ptrft = NULL;
 
-    if(data == NULL)
-    {
-        return ERR_INVALID_PARAMETER;
-    }
-
-    if(size <= 0)
+    if(fd < 0 || fd >= MAXOPENFILES || data == NULL || size <= 0)
     {
         return ERR_INVALID_PARAMETER;
     }
@@ -681,26 +716,33 @@ int ReadFile(
         return ERR_FILE_NOT_EXIST;
     }
 
-    // Filter of permissions
-    if(uareaobj.UFDT[fd]->ptrinode->Permission < READ)
+    ptrft = uareaobj.UFDT[fd];
+
+    // Check read mode
+    if(ptrft->Mode != READ && ptrft->Mode != (READ + WRITE))
     {
         return ERR_PERMISSION_DENIED;
     }
 
-    // Insufficient data
-    if((MAXFILESIZE - uareaobj.UFDT[fd]->ReadOffset) < size)
+    // Check available data
+    if((ptrft->ptrinode->ActualFileSize - ptrft->ReadOffset) < size)
     {
         return ERR_INSUFFICIENT_DATA;
     }
 
-    // Read the data
-    strncpy(data, uareaobj.UFDT[fd]->ptrinode->Buffer + uareaobj.UFDT[fd]->ReadOffset, size);
+    // Copy data
+    memcpy(data,
+           ptrft->ptrinode->Buffer + ptrft->ReadOffset,
+           size);
 
-    // Update the read offset
-    uareaobj.UFDT[fd]->ReadOffset = uareaobj.UFDT[fd]->ReadOffset + size;
+    // ⭐ VERY IMPORTANT — null terminate for printing
+    data[size] = '\0';
+
+    ptrft->ReadOffset += size;
 
     return size;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 //
@@ -872,7 +914,7 @@ int main()
             // Marvellous CVFS : > read 3 10
             else if(strcmp("read", Command[0]) == 0)
             {
-                EmptyBuffer = (char*)malloc(sizeof(atoi(Command[2])));
+                EmptyBuffer = (char *)malloc(sizeof(atoi(Command[2])));
 
                 iRet = ReadFile(atoi(Command[1]), EmptyBuffer, atoi(Command[2]));
 
