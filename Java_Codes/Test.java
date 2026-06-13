@@ -18,13 +18,13 @@ class Test
         {
             for(int j = 1; j <= 3 && iCount <= iNo; j++)
             {
-                System.err.print("* ");
+                System.out.print("* ");
                 iCount++;
             }
 
             for(int k = 1; k <= 3 && iCount <= iNo; k++)
             {
-                System.err.print("# ");
+                System.out.print("# ");
                 iCount++;
             }
         }
