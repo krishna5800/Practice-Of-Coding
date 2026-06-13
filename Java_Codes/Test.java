@@ -7,14 +7,26 @@ class Test
         Scanner sobj = new Scanner(System.in);
 
         int iNo = 0;
-        int iCount = 0;
+        int iCount = 1;
 
         System.out.println("Enter Number : ");
         iNo = sobj.nextInt();
 
-        for(int i = 0; i < 3; i++)
+        System.out.println("");
+
+        for(int i = 1; i <= iNo && iCount <= iNo; i++)
         {
-            System.out.print("* ");
+            for(int j = 1; j <= 3 && iCount <= iNo; j++)
+            {
+                System.err.print("* ");
+                iCount++;
+            }
+
+            for(int k = 1; k <= 3 && iCount <= iNo; k++)
+            {
+                System.err.print("# ");
+                iCount++;
+            }
         }
 
     }
